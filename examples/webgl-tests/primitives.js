@@ -8,11 +8,11 @@ import Camera from 'famous/components/Camera';
 
 var Geometries = {};
 
-var ctx = FamousEngine.createScene('body');
-var camera = new Camera(ctx);
+var scene = FamousEngine.createScene('body');
+var camera = new Camera(scene);
 	camera.setDepth(1000);
 
-var gridNode = ctx.addChild()
+var gridNode = scene.addChild()
 	.setSizeMode(1, 1, 1)
 	.setMountPoint(0.5, 0.5, 0.5)
 	.setAlign(0.5, 0.5, 0.5)

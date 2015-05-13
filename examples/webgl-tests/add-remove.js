@@ -3,8 +3,8 @@ import Mesh from 'famous/webgl-renderables/Mesh';
 import Color from 'famous/utilities/Color';
 import DOMElement from 'famous/dom-renderables/DOMElement';
 
-var ctx = FamousEngine.createScene('body');
-var child;
+var scene = FamousEngine.createScene('body');
+var child = scene.addChild();
 
 function add() {
 	child = DOMWebGLNode();
@@ -13,7 +13,7 @@ function add() {
 }
 
 function remove() {
-	ctx.removeChild(child);
+	scene.removeChild(child);
 
 	setTimeout(add, 1000);
 }
@@ -21,7 +21,7 @@ function remove() {
 add();
 
 function DOMWebGLNode() {
-	child = ctx.addChild()
+	child = scene.addChild()
 		.setProportionalSize(0.5, 0.5, 0.5)
 		.setMountPoint(0.5, 0.5, 0.5)
 		.setAlign(0.5, 0.5, 0.5)
