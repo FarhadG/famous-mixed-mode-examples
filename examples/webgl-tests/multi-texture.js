@@ -1,4 +1,4 @@
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Node from 'famous/core/Node';
 
 import Mesh from 'famous/webgl-renderables/Mesh';
@@ -12,9 +12,9 @@ import Camera from 'famous/components/Camera';
 	Register custom Materials
 */
 
-Material.registerExpression('vec3Texture', { glsl: 'texture2D($TEXTURE, v_TextureCoordinate).rgb;', output: 3 });
-Material.registerExpression('heightFromTexture', { glsl: 'vec3(0.0, 0.0, length(texture2D($TEXTURE, v_TextureCoordinate).rgb)) * normals;', output: 3 });
-Material.registerExpression('specTexture', { glsl: 'vec4(0.6, 0.6, 0.6, 500.0 - length(texture2D($TEXTURE, v_TextureCoordinate).rgb) * 500.);', output: 4 });
+Material.registerExpression('vec3Texture', { glsl: 'texture2D($TEXTURE, v_textureCoordinate).rgb;', output: 3 });
+Material.registerExpression('heightFromTexture', { glsl: 'vec3(0.0, 0.0, length(texture2D($TEXTURE, v_textureCoordinate).rgb)) * a_normals;', output: 3 });
+Material.registerExpression('specTexture', { glsl: 'vec4(0.6, 0.6, 0.6, 500.0 - length(texture2D($TEXTURE, v_textureCoordinate).rgb) * 500.);', output: 4 });
 
 /*
 	Instantiate custom materials with desired textures
@@ -29,7 +29,7 @@ var specularMap = Material.specTexture([], { texture: 'images/brick-specular-map
 	Create context and camera
 */
 
-var ctx = Famous.createContext();
+var ctx = FamousEngine.createScene('body');
 var camera = new Camera(ctx);
 	camera.setDepth(1000);
 
@@ -47,9 +47,8 @@ var texturedNode = ctx.addChild()
 /*
 	Add WebGL mesh
 */
-
 var mesh = new Mesh(texturedNode)
-	.setGeometry('Plane', { detail: 250 })
+	.setGeometry('Plane', { detail: 250, backface: false })
 	.setBaseColor(diffuseMap)
 	// .setBaseColor(new Color('pink'))
 	.setNormals(normalMap)
@@ -74,7 +73,7 @@ var light = new PointLight(lightNode);
 	Update function
 */
 
-Famous.getClock().setInterval(function update() {
+FamousEngine.getClock().setInterval(function update() {
 	var time = Date.now();
 
 	texturedNode.setRotation(Math.sin(time * 0.001) * 0.1, Math.cos(time * 0.001) * 0.1, 0);

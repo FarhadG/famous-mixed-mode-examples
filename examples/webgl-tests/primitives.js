@@ -1,5 +1,5 @@
 import {Grid} from './helpers/Grid';
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Mesh from 'famous/webgl-renderables/Mesh';
 import Color from 'famous/utilities/Color';
 import {Primitives} from './helpers/Primitives';
@@ -8,7 +8,7 @@ import Camera from 'famous/components/Camera';
 
 var Geometries = {};
 
-var ctx = Famous.createContext('body');
+var ctx = FamousEngine.createScene('body');
 var camera = new Camera(ctx);
 	camera.setDepth(1000);
 
@@ -34,7 +34,7 @@ for (var key in Primitives) {
 		.setBaseColor(Material.normal())
 }
 
-Famous.getClock().setInterval(function() {
+FamousEngine.getClock().setInterval(function() {
 	var time = Date.now();
 
 	grid.children.forEach(function(child) {
