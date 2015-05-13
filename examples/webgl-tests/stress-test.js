@@ -1,5 +1,5 @@
 import {Grid} from './helpers/Grid';
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Mesh from 'famous/webgl-renderables/Mesh';
 import Color from 'famous/utilities/Color';
 import Material from 'famous/webgl-materials/Material';
@@ -7,13 +7,13 @@ import Camera from 'famous/components/Camera';
 
 var Geometries = {};
 
-var ctx = Famous.createContext('body');
-var camera = new Camera(ctx);
+var scene = FamousEngine.createScene('body');
+var camera = new Camera(scene);
 	camera.setDepth(1000);
 
 var DIMENSIONS = [6, 6];
 
-var gridNode = ctx.addChild()
+var gridNode = scene.addChild()
 	.setMountPoint(0.5, 0.5, 0.5)
 	.setAlign(0.5, 0.5, 0.5)
 	.setProportionalSize(0.5, 0.5, 0.5)
@@ -31,7 +31,7 @@ for (var i = 0; i < DIMENSIONS[0] * DIMENSIONS[1]; i++) {
 		.setBaseColor(Material.normal())
 }
 
-Famous.getClock().setInterval(function() {
+FamousEngine.getClock().setInterval(function() {
 	var time = Date.now();
 
 	// for (var i = 0; i < grid.children.length; i++) {

@@ -1,4 +1,4 @@
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Node from 'famous/core/Node';
 
 import Mesh from 'famous/webgl-renderables/Mesh';
@@ -29,7 +29,7 @@ var specularMap = Material.specTexture([], { texture: 'images/brick-specular-map
 	Create context and camera
 */
 
-var ctx = Famous.createContext();
+var ctx = FamousEngine.createScene();
 var camera = new Camera(ctx);
 	camera.setDepth(1000);
 
@@ -74,7 +74,7 @@ var light = new PointLight(lightNode);
 	Update function
 */
 
-Famous.getClock().setInterval(function update() {
+FamousEngine.getClock().setInterval(function update() {
 	var time = Date.now();
 
 	texturedNode.setRotation(Math.sin(time * 0.001) * 0.1, Math.cos(time * 0.001) * 0.1, 0);

@@ -1,15 +1,15 @@
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Mesh from 'famous/webgl-renderables/Mesh';
 import Material from 'famous/webgl-materials/Material';
 import DOMElement from 'famous/dom-renderables/DOMElement';
 
-var ctx = Famous.createContext('body');
+var scene = FamousEngine.createScene('body');
 
 /*
 	Create shared node
 */
 
-var centerNode = ctx.addChild()
+var centerNode = scene.addChild()
 	.setMountPoint(0.5, 0.5, 0.5)
 	.setAlign(0.5, 0.5, 0.5)
 	.setSizeMode(1, 1, 1)
@@ -48,7 +48,7 @@ var mesh = new Mesh(meshNode)
 */
 
 var cutoutStatus = false;
-Famous.getClock().setInterval(function() {
+FamousEngine.getClock().setInterval(function() {
 	var time = Date.now();
 
 	meshNode.setRotation(0, Math.sin(time * 0.001) * 2.0, 0);

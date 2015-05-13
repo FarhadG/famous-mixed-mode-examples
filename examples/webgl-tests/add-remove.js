@@ -1,10 +1,10 @@
-import Famous from 'famous/core/Famous';
+import FamousEngine from 'famous/core/FamousEngine';
 import Mesh from 'famous/webgl-renderables/Mesh';
 import Color from 'famous/utilities/Color';
 import DOMElement from 'famous/dom-renderables/DOMElement';
 
-var ctx = Famous.createContext('body');
-ctx = ctx.addChild().addChild().addChild();
+var scene = FamousEngine.createScene('body');
+scene = scene.addChild().addChild().addChild();
 var child;
 
 function add() {
@@ -14,7 +14,7 @@ function add() {
 }
 
 function remove() {
-	ctx.removeChild(child);
+	scene.removeChild(child);
 
 	setTimeout(add, 1000);
 }
@@ -22,7 +22,7 @@ function remove() {
 add();
 
 function DOMWebGLNode() {
-	child = ctx.addChild()
+	child = scene.addChild()
 		.setProportionalSize(0.5, 0.5, 0.5)
 		.setMountPoint(0.5, 0.5, 0.5)
 		.setAlign(0.5, 0.5, 0.5)
@@ -37,7 +37,7 @@ function DOMWebGLNode() {
 	return child
 }
 
-Famous.getClock().setInterval(function() {
+FamousEngine.getClock().setInterval(function() {
 	var time = Date.now();
 
 	child.setPosition(Math.sin(time * 0.01) * 300, 0, 0);
