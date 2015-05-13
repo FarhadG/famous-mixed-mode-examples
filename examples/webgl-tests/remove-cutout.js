@@ -1,6 +1,6 @@
 import Famous from 'famous/core/Famous';
 import Mesh from 'famous/webgl-renderables/Mesh';
-import Color from 'famous/utilities/Color';
+import Material from 'famous/webgl-materials/Material';
 import DOMElement from 'famous/dom-renderables/DOMElement';
 
 var ctx = Famous.createContext('body');
@@ -24,8 +24,11 @@ var domNode = centerNode.addChild()
 	.setAlign(0.5, 0.5, 0.5)
 	.setOrigin(0.5, 0.5, 0.5);
 
+var content = '', i = 119;
+while (i--) content += 'DOM ';
+
 var domEl = new DOMElement(domNode, { cutout: false })
-	.setProperty('background-color', 'blue');
+	.setContent(content);
 
 /*
 	Create meshNode
@@ -37,8 +40,8 @@ var meshNode = centerNode.addChild()
 	.setOrigin(0.5, 0.5, 0.5);
 
 var mesh = new Mesh(meshNode)
-	.setGeometry('Sphere')
-	.setBaseColor(new Color('pink'));
+	.setGeometry('GeodesicSphere')
+	.setBaseColor(Material.normal());
 
 /*
 	Update loop

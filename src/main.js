@@ -16,7 +16,7 @@ var threadManager = new ThreadManager(Famous.getChannel(), compositor, engine);
 
 // require('../examples/webgl-tests/multi-texture');
 // require('../examples/webgl-tests/add-remove');
-// require('../examples/webgl-tests/cutout-layering');
+require('../examples/webgl-tests/remove-cutout');
 // require('../examples/webgl-tests/primitives');
-require('../examples/webgl-tests/stress-test');
+// require('../examples/webgl-tests/stress-test');
 
