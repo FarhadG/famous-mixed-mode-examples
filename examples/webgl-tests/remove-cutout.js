@@ -27,7 +27,7 @@ var domNode = centerNode.addChild()
 var content = '', i = 119;
 while (i--) content += 'DOM ';
 
-var domEl = new DOMElement(domNode, { cutout: false })
+var domEl = new DOMElement(domNode, { cutout: true })
 	.setContent(content);
 
 /*
