@@ -41,11 +41,9 @@ var videoChild = mainNode.addChild();
 // Create video texture and make sure to set resampleRate to tell Famous how
 // frequently to resample that texture
 
-// var videoTexture = TextureRegistry.register('videoTexture', video, { resampleRate: 16 });
-var videoTexture = TextureRegistry.register('videoTexture', video, { resampleRate: 16 });
 var mesh = new Mesh(videoChild)
 	.setGeometry(new Sphere({ detail: 30 }))
-	.setBaseColor(Material.image([], { texture: videoTexture }));
+	.setBaseColor(Material.image([], { texture: 'images/brick-diffuse-map.png' }));
 
 /*
 	Create wireframe sphere

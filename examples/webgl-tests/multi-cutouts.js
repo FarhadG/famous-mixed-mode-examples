@@ -5,7 +5,7 @@ import DOMElement from 'famous/dom-renderables/DOMElement';
 
 var scene = FamousEngine.createScene('body');
 
-// var material = Material.normal();
+var material = Material.normal();
 
 class CutoutSphere {
 	constructor(node, options) {
@@ -38,7 +38,7 @@ class CutoutSphere {
 
 		var mesh = new Mesh(this.meshNode)
 			.setGeometry('GeodesicSphere')
-			.setBaseColor(Material.normal());
+			.setBaseColor(material);
 	}
 }
 
