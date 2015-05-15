@@ -17,7 +17,7 @@ FamousEngine.init();
 // require('../examples/webgl-tests/array-texture')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/set-vertex-positions')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/sphere-inner-texture')(FamousEngine.createScene('body'));
-// require('../examples/webgl-tests/load-obj')(FamousEngine.createScene('body'));
+require('../examples/webgl-tests/load-obj')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/add-remove')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/remove-cutout')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/multi-cutouts')(FamousEngine.createScene('body'));
