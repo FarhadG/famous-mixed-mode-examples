@@ -5,7 +5,7 @@ import {TextureRegistry} from 'famous/webgl-materials';
 import {Camera} from 'famous/components';
 import {Sphere, GeometryHelper, DynamicGeometry} from 'famous/webgl-geometries';
 
-var scene = Famous.createScene('body');
+var scene = FamousEngine.createScene('body');
 var camera = new Camera(scene);
 	camera.setDepth(800);
 
