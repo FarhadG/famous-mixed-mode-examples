@@ -1,9 +1,7 @@
 import FamousEngine from 'famous/core/FamousEngine';
 import Node from 'famous/core/Node';
-
 import Mesh from 'famous/webgl-renderables/Mesh';
 import PointLight from 'famous/webgl-renderables/lights/PointLight';
-
 import Material from 'famous/webgl-materials/Material';
 import Color from 'famous/utilities/Color';
 import Camera from 'famous/components/Camera';
@@ -25,64 +23,68 @@ var normalMap   = Material.vec3Texture([], { texture: 'images/brick-normal-map.p
 var heightMap   = Material.heightFromTexture([], { texture: 'images/brick-height-map.png' });
 var specularMap = Material.specTexture([], { texture: 'images/brick-specular-map.png' });
 
-/*
-	Create context and camera
-*/
 
-var ctx = FamousEngine.createScene('body');
-var camera = new Camera(ctx);
-	camera.setDepth(1000);
+module.exports = function init (scene) {
+	/*
+		Create context and camera
+	*/
 
-/*
-	Create mesh node
-*/
+	var ctx = FamousEngine.createScene('body');
+	var camera = new Camera(ctx);
+		camera.setDepth(1000);
 
-var texturedNode = ctx.addChild()
-	.setAlign(0.5, 0.5, 0.5)
-	.setMountPoint(0.5, 0.5, 0.5)
-	.setOrigin(0.5, 0.5, 0.5)
-	.setSizeMode(1, 1, 1) // absolute size
-	.setAbsoluteSize(800, 800, 75)
+	/*
+		Create mesh node
+	*/
 
-/*
-	Add WebGL mesh
-*/
-var mesh = new Mesh(texturedNode)
-	.setGeometry('Plane', { detail: 250, backface: false })
-	.setBaseColor(diffuseMap)
-	// .setBaseColor(new Color('pink'))
-	.setNormals(normalMap)
-	.setPositionOffset(heightMap)
-	.setGlossiness(specularMap)
-	// .setGlossiness(new Color('white'), 300)
+	var texturedNode = ctx.addChild()
+		.setAlign(0.5, 0.5, 0.5)
+		.setMountPoint(0.5, 0.5, 0.5)
+		.setOrigin(0.5, 0.5, 0.5)
+		.setSizeMode(1, 1, 1) // absolute size
+		.setAbsoluteSize(800, 800, 75)
 
-/*
-	Create mesh node
-*/
+	/*
+		Add WebGL mesh
+	*/
+	var mesh = new Mesh(texturedNode)
+		.setGeometry('Plane', { detail: 250, backface: false })
+		.setBaseColor(diffuseMap)
+		// .setBaseColor(new Color('pink'))
+		.setNormals(normalMap)
+		.setPositionOffset(heightMap)
+		.setGlossiness(specularMap)
+		// .setGlossiness(new Color('white'), 300)
 
-var lightNode = ctx.addChild()
-	.setAlign(0.5, 0.5, 0.5)
-	.setMountPoint(0.5, 0.5, 0.5)
-	.setSizeMode(1, 1, 1)
-	.setAbsoluteSize(50, 50, 50);
+	/*
+		Create mesh node
+	*/
 
-var light = new PointLight(lightNode);
-	light.setColor(new Color('white'))
+	var lightNode = ctx.addChild()
+		.setAlign(0.5, 0.5, 0.5)
+		.setMountPoint(0.5, 0.5, 0.5)
+		.setSizeMode(1, 1, 1)
+		.setAbsoluteSize(50, 50, 50);
 
-/*
-	Update function
-*/
+	var light = new PointLight(lightNode);
+		light.setColor(new Color('white'))
 
-FamousEngine.getClock().setInterval(function update() {
-	var time = Date.now();
+	/*
+		Update function
+	*/
 
-	texturedNode.setRotation(Math.sin(time * 0.001) * 0.1, Math.cos(time * 0.001) * 0.1, 0);
-	lightNode.setPosition(Math.sin(time * 0.0014) * 200, Math.sin(time * 0.0010) * 200, 200);
-}, 16);
+	FamousEngine.getClock().setInterval(function update() {
+		var time = Date.now();
 
-/*
-	Attach to scene
-*/
+		texturedNode.setRotation(Math.sin(time * 0.001) * 0.1, Math.cos(time * 0.001) * 0.1, 0);
+		lightNode.setPosition(Math.sin(time * 0.0014) * 200, Math.sin(time * 0.0010) * 200, 200);
+	}, 16);
 
-ctx.addChild(lightNode);
-ctx.addChild(texturedNode);
+	/*
+		Attach to scene
+	*/
+
+	ctx.addChild(lightNode);
+	ctx.addChild(texturedNode);	
+}
+

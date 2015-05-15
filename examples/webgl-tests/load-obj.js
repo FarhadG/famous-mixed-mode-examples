@@ -7,29 +7,29 @@ import Camera from 'famous/components/Camera';
 
 var url = 'obj/teapot.obj';
 
-var scene = FamousEngine.createScene('body');
+module.exports = function init(scene) {
+	var camera = new Camera(scene);
+		camera.setDepth(1000)
 
-var camera = new Camera(scene);
-	camera.setDepth(1000)
+	OBJLoader.load(url, function(buffers) {
+		var child = scene.addChild()
+			.setAlign(0.5, 0.5, 0.5)
+			.setMountPoint(0.5, 0.5, 0.5)
+			.setSizeMode(1, 1, 1)
+			.setAbsoluteSize(500, 500, 500);
 
-OBJLoader.load(url, function(buffers) {
-	var child = scene.addChild()
-		.setAlign(0.5, 0.5, 0.5)
-		.setMountPoint(0.5, 0.5, 0.5)
-		.setSizeMode(1, 1, 1)
-		.setAbsoluteSize(500, 500, 500);
+		var objGeometry = new Geometry({
+			buffers: [
+				{ name: 'a_pos', data: buffers.vertices, size: 3 },
+				{ name: 'a_normals', data: buffers.normals, size: 3 },
+				{ name: 'indices', data: buffers.indices, size: 1 }
+			]
+		});
 
-	var objGeometry = new Geometry({
-		buffers: [
-			{ name: 'a_pos', data: buffers.vertices, size: 3 },
-			{ name: 'a_normals', data: buffers.normals, size: 3 },
-			{ name: 'indices', data: buffers.indices, size: 1 }
-		]
-	});
+		var mesh = new Mesh(child)
+			.setGeometry(objGeometry)
+			.setBaseColor(Material.normal())
+			.setDrawOptions({ side: 'back' });
 
-	var mesh = new Mesh(child)
-		.setGeometry(objGeometry)
-		.setBaseColor(Material.normal())
-		.setDrawOptions({ side: 'back' });
-
-}, { normalize: true });
+	}, { normalize: true });
+}

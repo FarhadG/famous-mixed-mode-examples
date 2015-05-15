@@ -3,9 +3,48 @@ import Mesh from 'famous/webgl-renderables/Mesh';
 import Material from 'famous/webgl-materials/Material';
 import DOMElement from 'famous/dom-renderables/DOMElement';
 
-var scene = FamousEngine.createScene('body');
-
 var material = Material.normal();
+
+function init(scene) {
+	/*
+		Create shared node
+	*/
+
+	var centerNode = scene.addChild()
+		.setMountPoint(0.5, 0.5, 0.5)
+		.setAlign(0.5, 0.5, 0.5)
+		.setSizeMode(1, 1, 1)
+		.setAbsoluteSize(800, 800, 800);
+
+	/*
+		Update loop
+	*/
+
+	var sphereCutouts = [];
+	var n = 5;
+	var i = n;
+	while (i--) {
+		sphereCutouts.push(
+			new CutoutSphere(
+				centerNode.addChild(),
+				{
+					align: [i * 1/n, 0.5, 0.5],
+					size: [1/n, 1/n, 1/n]
+				}
+			)
+		);
+	}
+
+	var cutoutStatus = false;
+	FamousEngine.getClock().setInterval(function() {
+		var time = Date.now();
+
+		for (var i = 0; i < sphereCutouts.length; i++) {
+			sphereCutouts[i].meshNode.setRotation(0, Math.sin(time * 0.001) * 2.0, 0);
+			sphereCutouts[i].domNode.setRotation(0, Math.sin(time * 0.001) * 3.0, 0);
+		};
+	}, 16);
+}
 
 class CutoutSphere {
 	constructor(node, options) {
@@ -41,42 +80,3 @@ class CutoutSphere {
 			.setBaseColor(material);
 	}
 }
-
-/*
-	Create shared node
-*/
-
-var centerNode = scene.addChild()
-	.setMountPoint(0.5, 0.5, 0.5)
-	.setAlign(0.5, 0.5, 0.5)
-	.setSizeMode(1, 1, 1)
-	.setAbsoluteSize(800, 800, 800);
-
-/*
-	Update loop
-*/
-
-var sphereCutouts = [];
-var n = 5;
-var i = n;
-while (i--) {
-	sphereCutouts.push(
-		new CutoutSphere(
-			centerNode.addChild(),
-			{
-				align: [i * 1/n, 0.5, 0.5],
-				size: [1/n, 1/n, 1/n]
-			}
-		)
-	);
-}
-
-var cutoutStatus = false;
-FamousEngine.getClock().setInterval(function() {
-	var time = Date.now();
-
-	for (var i = 0; i < sphereCutouts.length; i++) {
-		sphereCutouts[i].meshNode.setRotation(0, Math.sin(time * 0.001) * 2.0, 0);
-		sphereCutouts[i].domNode.setRotation(0, Math.sin(time * 0.001) * 3.0, 0);
-	};
-}, 16);
