@@ -10,17 +10,13 @@ module.exports = function init (scene) {
 	var camera = new Camera(scene);
 		camera.setDepth(1000);
 
-	var gridNode = scene.addChild()
+	var grid = new Grid({ dimensions: [4, 4], padding: 30 })
 		.setSizeMode(1, 1, 1)
 		.setMountPoint(0.5, 0.5, 0.5)
 		.setAlign(0.5, 0.5, 0.5)
 		.setAbsoluteSize(800, 800, 200);
 
-	var grid = new Grid(gridNode, {
-		dimensions: [4, 4],
-		verticalGutters: 300,
-		horizontalGutters: 300
-	});
+	scene.addChild(grid);
 
 	var i = 0;
 	for (var key in Primitives) {
@@ -36,7 +32,7 @@ module.exports = function init (scene) {
 		var time = Date.now();
 
 		grid.children.forEach(function(child) {
-			child.node.setRotation(0, Math.sin(time * 0.0005, 0) * 3, 0);
+			child.setRotation(0, Math.sin(time * 0.0005, 0) * 3, 0);
 		});
 
 	}, 16)

@@ -1,5 +1,6 @@
 dist
 public/*.bundle.js
+public/video/*
 node_modules
 npm-debug.log
 .DS_Store
