@@ -9,9 +9,9 @@ FamousEngine.init();
 // App Code
 
 // require('../examples/physics-toss/index');
-// require('../examples/physics-scroll/index');
+require('../examples/physics-scroll/index');
 // require('../examples/physics-fan/index');
-require('../examples/gestures-demo/index');
+// require('../examples/gestures-demo/index');
 
 // require('../examples/physics-ribbon/index');
 

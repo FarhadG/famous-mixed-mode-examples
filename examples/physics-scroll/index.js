@@ -28,7 +28,7 @@ var impulse = new math.Vec3();
 
 function App(node) {
     this.node = node;
-    this.el = new DOMElement(node);
+    this.el = new DOMElement(node, {cutout: false});
     this.last = [0,0];
 
     this.node.addUIEvent('wheel');
@@ -101,7 +101,7 @@ BoxView.prototype.update = function() {
 var ghost = new physics.Box({
     size: [w/10,h/10,h/10],
     mass: 1e3,
-    restrictions: ['xyz', 'yz']
+    restrictions: ['xyz', 'y']
 });
 
 ghost.content = '';
