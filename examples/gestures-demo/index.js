@@ -3,17 +3,18 @@
 var FamousEngine = require('famous/core/FamousEngine');
 
 var GestureHandler = require('famous/components/GestureHandler');
+var Transform = require('famous/components/Transform');
 var DOMElement = require('famous/dom-renderables/DOMElement');
 
 var physics = require('famous/physics');
 var math = require('famous/math');
 
-var world = new physics.PhysicsEngine();
+// To prevent a mobile Safari clipping bug, we'll move everything forward to z = 1000
+var world = new physics.PhysicsEngine({ origin: new math.Vec3(0,0,1000) });
 
 function App(root) {
     this.node = root;
-    this.views = [];
-    this.engine = world;
+    this.children = [];
 
     FamousEngine.requestUpdate(this);
 }
@@ -29,12 +30,12 @@ App.prototype.grid = function(n) {
         panel.setProportionalSize(p - 0.001,p - 0.001,0);
         panel.setAlign((i % sqrt) * p, Math.floor(i / sqrt) * p,0);
 
-        var bView = new BoxView(panel.addChild(), {
+        var boxView = new BoxView(panel.addChild(), {
             mass: 10,
             size: [100,200,300]
         });
 
-        var b = bView.body;
+        var b = boxView.body;
 
         bodies.push(b);
         var spring = new physics.Spring(null,b, {period:1.5, dampingRatio:0.6, anchor: new math.Vec3()});
@@ -43,6 +44,8 @@ App.prototype.grid = function(n) {
 
         b.spring = spring;
         b.rspring = rspring;
+
+        this.children.push(boxView);
     }
 
     var rdrag = new physics.RotationalDrag(bodies, {strength: 3e4});
@@ -52,7 +55,12 @@ App.prototype.grid = function(n) {
 };
 
 App.prototype.onUpdate = function(t) {
-    this.engine.update(t);
+    world.update(t);
+
+    for(var i = 0, len = this.children.length; i < len; i++) {
+        this.children[i].update();
+    }
+
     FamousEngine.requestUpdateOnNextTick(this);
 };
 
@@ -68,6 +76,8 @@ function BoxView(node, options) {
 
     this.node.setOrigin(0.5,0.5,0.5);
 
+    this.t = new Transform(node);
+
     this.el = new DOMElement(node);
     this.el.setProperty('textAlign', 'center');
     this.el.setProperty('background', 'black');
@@ -77,6 +87,7 @@ function BoxView(node, options) {
     this.el.setProperty('zIndex', j + '');
     this.el.setProperty('background', 'hsl('+((base += 37) % 360)+',40%,50%)');
     this.el.setContent(j + '');
+    this.el.setCutoutState(false);
 
     this.gestures = new GestureHandler(node, [
         {event:'pinch', callback: pinch.bind(this)},
@@ -84,16 +95,12 @@ function BoxView(node, options) {
         {event:'tap', callback: tap.bind(this), threshold: 300, points: 1},
         {event:'rotate', callback: rotate.bind(this)}
     ]);
-
-    FamousEngine.requestUpdate(this);
 }
 
-BoxView.prototype.onUpdate = function() {
+BoxView.prototype.update = function() {
     var t = world.getTransform(this.body);
     this.node.setPosition(t.position[0],t.position[1],t.position[2]);
     this.node.setRotation(t.rotation[0],t.rotation[1],t.rotation[2],t.rotation[3]);
-    this.el.setProperty('background', 'hsl('+((base += 37) % 360)+'60%,60%)');
-    FamousEngine.requestUpdateOnNextTick(this);
 }
 
 function tap(e) {
@@ -117,7 +124,7 @@ function pinch(e) {
     var z = s[2];
 
     var d = e.scaleDelta + 1;
-    this.node.setScale(x*d,y*d,z*d);
+    this.t.setScale(x*d,y*d,z*d);
 }
 
 function drag(e) {
@@ -128,13 +135,14 @@ function drag(e) {
     }
     else if (e.status === 'end') {
         if (e.current === 0) {
-            this.node.setScale(1, 1, 1, {duration: 1500, curve: 'outBounce'});
+            this.t.setScale(1, 1, 1, {duration: 1500, curve: 'outBounce'});
             world.add(this.body.spring, this.body.rspring);
         }
     }
     var d = e.centerDelta;
     if (e.points === 1) {
         if (e.current === 0) this.body.setVelocity(d.x * hz, d.y * hz, 0);
+        else this.body.setVelocity(0,0,0);
         this.body.position.x += d.x;
         this.body.position.y += d.y;
     }
