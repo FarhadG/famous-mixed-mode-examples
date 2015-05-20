@@ -101,7 +101,7 @@ BoxView.prototype.update = function() {
 var ghost = new physics.Box({
     size: [w/10,h/10,h/10],
     mass: 1e3,
-    restrictions: ['xyz', '']
+    restrictions: ['xyz', 'yz']
 });
 
 ghost.content = '';
