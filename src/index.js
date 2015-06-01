@@ -16,7 +16,8 @@ FamousEngine.init();
 // require('../examples/gestures-demo/index');
 
 // require('../examples/gl-lights/index');
-require('../examples/shiny-cube/index');
+// require('../examples/shiny-cube/index');
+require('../examples/solar-system/index');
 
 // require('../examples/webgl-tests/multi-texture')(FamousEngine.createScene('body'));
 // require('../examples/webgl-tests/array-texture')(FamousEngine.createScene('body'));
